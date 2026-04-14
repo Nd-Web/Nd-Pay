@@ -17,12 +17,12 @@ import { NamedAvatar } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 
-// Quick action config
+// Quick action config — FlowPay palette
 const quickActions = [
-  { href: '/send', icon: Send, label: 'Send', color: 'from-violet-500 to-purple-600', shadow: 'shadow-violet-500/30', action: null },
-  { href: '/transactions', icon: ArrowLeftRight, label: 'History', color: 'from-blue-500 to-cyan-500', shadow: 'shadow-blue-500/30', action: null },
-  { href: null, icon: Plus, label: 'Add $1K', color: 'from-emerald-500 to-teal-500', shadow: 'shadow-emerald-500/30', action: 'fund' },
-  { href: '/notifications', icon: Bell, label: 'Alerts', color: 'from-amber-500 to-orange-500', shadow: 'shadow-amber-500/30', action: null },
+  { href: '/send',          icon: Send,           label: 'Send',    color: 'from-[#6C5CE7] to-[#A29BFE]',  shadow: 'shadow-[#6C5CE7]/35', action: null  },
+  { href: '/transactions',  icon: ArrowLeftRight, label: 'History', color: 'from-[#3B82F6] to-[#06B6D4]',  shadow: 'shadow-blue-500/30',  action: null  },
+  { href: null,             icon: Plus,           label: 'Add $1K', color: 'from-[#00D68F] to-[#00B07A]',  shadow: 'shadow-[#00D68F]/30', action: 'fund'},
+  { href: '/notifications', icon: Bell,           label: 'Alerts',  color: 'from-[#F59E0B] to-[#EF4444]',  shadow: 'shadow-amber-500/30', action: null  },
 ];
 
 function getGreeting() {
@@ -150,7 +150,7 @@ export default function DashboardPage() {
       >
         <div className="flex items-center justify-between px-4 mb-4">
           <h2 className="text-white font-semibold text-sm">Quick Send</h2>
-          <Link href="/send" className="text-violet-400 text-xs font-medium hover:text-violet-300 transition-colors">
+          <Link href="/send" className="text-[#A29BFE] text-xs font-medium hover:text-[#6C5CE7] transition-colors">
             Find someone
           </Link>
         </div>

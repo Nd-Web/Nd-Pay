@@ -148,17 +148,17 @@ function CreditToast({
 }) {
   return (
     <div
-      className="flex items-start gap-3 bg-[#0d1f17] border border-emerald-500/40 rounded-2xl p-4 shadow-2xl shadow-emerald-900/40 max-w-sm w-full cursor-pointer"
+      className="flex items-start gap-3 bg-[#0A1A14] border border-[#00D68F]/35 rounded-2xl p-4 shadow-2xl shadow-[#00D68F]/10 max-w-sm w-full cursor-pointer"
       onClick={() => toast.dismiss(id)}
     >
-      <div className="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0 text-lg">
+      <div className="w-10 h-10 rounded-full bg-[#00D68F]/15 border border-[#00D68F]/25 flex items-center justify-center shrink-0 text-lg">
         💰
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-emerald-300 font-bold text-sm">{title}</p>
+        <p className="text-[#00D68F] font-bold text-sm">{title}</p>
         <p className="text-white/60 text-xs mt-0.5 leading-relaxed">{body}</p>
         {amount && (
-          <p className="text-emerald-400 font-bold text-base mt-1">
+          <p className="text-[#00D68F] font-bold text-base mt-1 mono-num">
             +{formatCurrency(amount)}
           </p>
         )}
@@ -180,17 +180,17 @@ function DebitToast({
 }) {
   return (
     <div
-      className="flex items-start gap-3 bg-[#1a1015] border border-violet-500/30 rounded-2xl p-4 shadow-2xl shadow-violet-900/30 max-w-sm w-full cursor-pointer"
+      className="flex items-start gap-3 bg-[#100E1A] border border-[#6C5CE7]/30 rounded-2xl p-4 shadow-2xl shadow-[#6C5CE7]/10 max-w-sm w-full cursor-pointer"
       onClick={() => toast.dismiss(id)}
     >
-      <div className="w-10 h-10 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center shrink-0 text-lg">
+      <div className="w-10 h-10 rounded-full bg-[#6C5CE7]/15 border border-[#6C5CE7]/25 flex items-center justify-center shrink-0 text-lg">
         📤
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-violet-300 font-bold text-sm">{title}</p>
+        <p className="text-[#A29BFE] font-bold text-sm">{title}</p>
         <p className="text-white/60 text-xs mt-0.5 leading-relaxed">{body}</p>
         {amount && (
-          <p className="text-white/50 font-semibold text-sm mt-1">
+          <p className="text-[#FF6B6B] font-semibold text-sm mt-1 mono-num">
             -{formatCurrency(amount)}
           </p>
         )}

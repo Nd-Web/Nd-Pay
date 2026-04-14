@@ -592,11 +592,11 @@ export default function ProfilePage() {
             <div className="divide-y divide-white/5">
               {/* App info */}
               <div className="flex items-center gap-3 px-4 py-3.5">
-                <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-[#6C5CE7] to-[#A29BFE] flex items-center justify-center shrink-0">
                   <Zap className="w-4 h-4 text-white" fill="white" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-white text-sm font-medium">NdPay</p>
+                  <p className="text-white text-sm font-medium">FlowPay</p>
                   <p className="text-white/30 text-xs">Version 1.0.0 · Demo Mode</p>
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 text-[10px] font-semibold">
@@ -631,7 +631,7 @@ export default function ProfilePage() {
             transition={{ delay: 0.3 }}
             className="text-center text-white/20 text-[11px] pb-2"
           >
-            NdPay is a demo app. All money is simulated. No real transactions occur.
+            FlowPay is a demo app. All money is simulated. No real transactions occur.
           </motion.p>
         </div>
       </div>

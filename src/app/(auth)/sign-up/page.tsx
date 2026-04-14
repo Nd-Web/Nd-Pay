@@ -5,13 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Mail, Lock, User, Eye, EyeOff, Zap,
+  Mail, Lock, User, Eye, EyeOff,
   CheckCircle2, Copy, Check, ChevronRight,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { FlowPayLogo } from '@/components/shared/FlowPayLogo';
 import { playSuccessSound } from '@/lib/sounds';
 
 // ── Password strength ────────────────────────────────────────────────────────
@@ -24,12 +25,12 @@ const getStrength = (pw: string) => {
   return score;
 };
 const strengthLabel     = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-const strengthBarClass  = ['', 'bg-red-500', 'bg-amber-500', 'bg-yellow-400', 'bg-emerald-500'];
-const strengthTextClass = ['', 'text-red-400', 'text-amber-400', 'text-yellow-400', 'text-emerald-400'];
+const strengthBarClass  = ['', 'bg-[#FF6B6B]', 'bg-amber-500', 'bg-yellow-400', 'bg-[#00D68F]'];
+const strengthTextClass = ['', 'text-[#FF6B6B]', 'text-amber-400', 'text-yellow-400', 'text-[#00D68F]'];
 
 // ── Confetti ──────────────────────────────────────────────────────────────────
 function ConfettiParticle({ i }: { i: number }) {
-  const colors = ['#7c3aed', '#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#06b6d4'];
+  const colors = ['#6C5CE7', '#00D68F', '#A29BFE', '#f59e0b', '#ec4899', '#06b6d4'];
   const color  = colors[i % colors.length];
   const angle  = (i / 20) * 360;
   const dist   = 80 + (i % 3) * 40;
@@ -55,11 +56,11 @@ function ConfirmEmailCard() {
       transition={{ type: 'spring', stiffness: 200, damping: 18 }}
       className="glass rounded-3xl p-8 shadow-2xl text-center"
     >
-      <div className="w-20 h-20 rounded-full bg-violet-500/20 border border-violet-500/30 flex items-center justify-center mx-auto mb-5">
-        <Mail className="w-10 h-10 text-violet-400" />
+      <div className="w-20 h-20 rounded-full bg-[#6C5CE7]/15 border border-[#6C5CE7]/25 flex items-center justify-center mx-auto mb-5">
+        <Mail className="w-10 h-10 text-[#A29BFE]" />
       </div>
       <h2 className="text-2xl font-bold text-white mb-2">Check your email</h2>
-      <p className="text-white/50 text-sm leading-relaxed mb-6">
+      <p className="text-[#6B7280] text-sm leading-relaxed mb-6">
         We&apos;ve sent a confirmation link to your email address.
         Click it to activate your account — then come back and sign in.
       </p>
@@ -100,16 +101,16 @@ function SuccessCard({ accountNumber, onContinue }: { accountNumber: string; onC
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 14, delay: 0.15 }}
-          className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-emerald-500/40"
+          className="w-20 h-20 rounded-full bg-gradient-to-br from-[#00D68F] to-[#00B07A] flex items-center justify-center mx-auto mb-6 shadow-2xl shadow-[#00D68F]/40"
         >
           <CheckCircle2 className="w-10 h-10 text-white" strokeWidth={1.5} />
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
           <h2 className="text-2xl font-bold text-white mb-1">Account Created!</h2>
-          <p className="text-white/50 text-sm mb-6">
-            Welcome to NdPay. Your wallet has been funded with{' '}
-            <span className="text-emerald-400 font-semibold">$10,000</span>
+          <p className="text-[#6B7280] text-sm mb-6">
+            Welcome to FlowPay. Your wallet has been funded with{' '}
+            <span className="text-[#00D68F] font-semibold">$10,000</span>
           </p>
         </motion.div>
 
@@ -117,10 +118,10 @@ function SuccessCard({ accountNumber, onContinue }: { accountNumber: string; onC
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45 }}
-          className="rounded-2xl bg-white/5 border border-white/10 p-5 mb-6"
+          className="rounded-2xl bg-[#6C5CE7]/8 border border-[#6C5CE7]/15 p-5 mb-6"
         >
-          <p className="text-white/40 text-xs uppercase tracking-widest mb-3">Your Account Number</p>
-          <p className="text-3xl font-bold text-white tracking-[0.2em] font-mono mb-3">
+          <p className="text-[#6B7280] text-xs uppercase tracking-widest mb-3">Your Account Number</p>
+          <p className="text-3xl font-bold text-white tracking-[0.2em] mono-num mb-3">
             {accountNumber !== '—'
               ? accountNumber.replace(/(\d{4})(\d{3})(\d{3})/, '$1 $2 $3')
               : '—'}
@@ -129,10 +130,10 @@ function SuccessCard({ accountNumber, onContinue }: { accountNumber: string; onC
             <button
               type="button"
               onClick={handleCopy}
-              className="flex items-center gap-2 mx-auto px-4 py-2 rounded-xl bg-violet-500/20 border border-violet-500/30 text-violet-300 text-sm font-medium hover:bg-violet-500/30 transition-all"
+              className="flex items-center gap-2 mx-auto px-4 py-2 rounded-xl bg-[#6C5CE7]/20 border border-[#6C5CE7]/30 text-[#A29BFE] text-sm font-medium hover:bg-[#6C5CE7]/30 transition-all"
             >
               {copied
-                ? <><Check className="w-4 h-4 text-emerald-400" /><span className="text-emerald-400">Copied!</span></>
+                ? <><Check className="w-4 h-4 text-[#00D68F]" /><span className="text-[#00D68F]">Copied!</span></>
                 : <><Copy className="w-4 h-4" />Copy number</>
               }
             </button>
@@ -157,7 +158,7 @@ function SuccessCard({ accountNumber, onContinue }: { accountNumber: string; onC
 type Step = 'form' | 'success' | 'confirm_email';
 
 export default function SignUpPage() {
-  const router  = useRouter();
+  const router   = useRouter();
   const supabase = createClient();
 
   const [step, setStep]             = useState<Step>('form');
@@ -189,7 +190,6 @@ export default function SignUpPage() {
 
     setLoading(true);
     try {
-      // ── Call server-side auth route (bypasses browser proxy) ─────────────────
       const res = await fetch('/api/auth/sign-up', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -199,11 +199,10 @@ export default function SignUpPage() {
       const body = await res.json();
 
       if (!res.ok) {
-        const msg: string = body.error ?? 'Sign up failed';
+        const msg: string  = body.error ?? 'Sign up failed';
         const hint: string | undefined = body.hint;
 
         if (res.status === 503 && hint) {
-          // Infrastructure not set up yet
           toast.error(msg, {
             description: hint,
             duration: 8000,
@@ -222,20 +221,17 @@ export default function SignUpPage() {
         return;
       }
 
-      // Email confirmation required — show info screen
       if (body.session === 'pending_confirmation') {
         setStep('confirm_email');
         return;
       }
 
-      // Auto-confirmed — poll for account number created by DB trigger
       const userId = body.user?.id;
       if (!userId) {
         toast.error('Sign up succeeded but no user ID returned');
         return;
       }
 
-      // Refresh session so the browser Supabase client picks up the cookie
       await supabase.auth.getSession();
 
       let attempts = 0;
@@ -268,13 +264,8 @@ export default function SignUpPage() {
   if (step === 'confirm_email') {
     return (
       <div className="relative">
-        <div className="flex items-center justify-center mb-8">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" fill="white" />
-            </div>
-            <span className="text-xl font-bold text-white">NdPay</span>
-          </div>
+        <div className="flex justify-center mb-8">
+          <FlowPayLogo size="sm" showIcon />
         </div>
         <ConfirmEmailCard />
       </div>
@@ -285,16 +276,11 @@ export default function SignUpPage() {
     return (
       <div className="relative">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-64 h-64 rounded-full bg-emerald-500/15 blur-3xl" />
+          <div className="w-64 h-64 rounded-full bg-[#00D68F]/12 blur-3xl" />
         </div>
         <div className="relative z-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" fill="white" />
-              </div>
-              <span className="text-xl font-bold text-white">NdPay</span>
-            </div>
+          <div className="flex justify-center mb-8">
+            <FlowPayLogo size="sm" showIcon />
           </div>
           <SuccessCard accountNumber={accountNumber} onContinue={() => router.push('/setup-pin')} />
         </div>
@@ -303,15 +289,10 @@ export default function SignUpPage() {
   }
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-      {/* Logo */}
-      <div className="flex items-center justify-center mb-8">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center shadow-lg shadow-violet-500/40">
-            <Zap className="w-5 h-5 text-white" fill="white" />
-          </div>
-          <span className="text-2xl font-bold text-white tracking-tight">NdPay</span>
-        </div>
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+      {/* Wordmark */}
+      <div className="flex justify-center mb-8">
+        <FlowPayLogo size="md" showIcon />
       </div>
 
       {/* Free money banner */}
@@ -319,19 +300,19 @@ export default function SignUpPage() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="mb-5 rounded-2xl bg-gradient-to-r from-emerald-500/15 to-teal-500/15 border border-emerald-500/25 p-4 flex items-center gap-3"
+        className="mb-5 rounded-2xl bg-[#00D68F]/10 border border-[#00D68F]/20 p-4 flex items-center gap-3"
       >
         <span className="text-2xl">💰</span>
         <div>
-          <p className="text-emerald-300 font-semibold text-sm">Get $10,000 free</p>
-          <p className="text-emerald-400/50 text-xs">Every new account gets funded instantly</p>
+          <p className="text-[#00D68F] font-semibold text-sm">Get $10,000 free</p>
+          <p className="text-[#00D68F]/50 text-xs">Every new account gets funded instantly</p>
         </div>
       </motion.div>
 
       <div className="glass rounded-3xl p-7 shadow-2xl">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-white mb-1">Create your account</h1>
-          <p className="text-white/50 text-sm">Join NdPay and start sending money instantly</p>
+          <p className="text-[#6B7280] text-sm">Join FlowPay and start sending money instantly</p>
         </div>
 
         <form onSubmit={handleSignUp} className="space-y-4">
@@ -397,7 +378,7 @@ export default function SignUpPage() {
                       />
                     ))}
                   </div>
-                  <p className="text-xs text-white/40">
+                  <p className="text-xs text-[#6B7280]">
                     Strength:{' '}
                     <span className={`font-medium ${strengthTextClass[strength] ?? 'text-white/30'}`}>
                       {strengthLabel[strength] || 'Very weak'}
@@ -415,8 +396,8 @@ export default function SignUpPage() {
               'Bank-grade transaction PIN security',
             ].map((f) => (
               <div key={f} className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="text-white/40 text-xs">{f}</span>
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#00D68F] shrink-0" />
+                <span className="text-[#6B7280] text-xs">{f}</span>
               </div>
             ))}
           </div>
@@ -427,9 +408,9 @@ export default function SignUpPage() {
         </form>
 
         <div className="mt-5 text-center">
-          <p className="text-white/40 text-sm">
+          <p className="text-[#6B7280] text-sm">
             Already have an account?{' '}
-            <Link href="/sign-in" className="text-violet-400 hover:text-violet-300 font-medium transition-colors">
+            <Link href="/sign-in" className="text-[#A29BFE] hover:text-[#6C5CE7] font-medium transition-colors">
               Sign in
             </Link>
           </p>

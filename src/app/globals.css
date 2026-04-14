@@ -285,6 +285,90 @@ input[type=number]::-webkit-outer-spin-button {
   background: var(--fp-primary);
 }
 
+/* Animation delay helpers */
+.delay-2s { animation-delay: 2s; }
+.delay-4s { animation-delay: 4s; }
+
+/* Primary gradient button — reused across send/request flows */
+.btn-fp-primary {
+  background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+  box-shadow: var(--shadow-btn);
+}
+.btn-fp-primary:disabled {
+  opacity: 0.3;
+}
+
+/* Accept & Pay button (payment_request notifications) */
+.btn-accept-pay {
+  background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.35);
+}
+
+/* ── Receipt print styles ── */
+#fp-receipt-print { display: none; }
+
+@media print {
+  body > * { display: none !important; }
+  #fp-receipt-print { display: block !important; }
+}
+
+/* Receipt element classes — used inside #fp-receipt-print */
+.receipt-root {
+  font-family: 'Inter', system-ui, sans-serif;
+  padding: 32px;
+  background: #ffffff;
+  color: #0A0A0F;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.receipt-heading {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.receipt-subheading {
+  color: #6B7280;
+  font-size: 12px;
+  margin-bottom: 24px;
+}
+.receipt-hr {
+  margin-bottom: 20px;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+.receipt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.receipt-td-label {
+  padding: 10px 0;
+  color: #6B7280;
+  width: 40%;
+}
+.receipt-td-value {
+  padding: 10px 0;
+  font-weight: 600;
+  text-align: right;
+}
+.receipt-td-row {
+  border-bottom: 1px solid #e5e7eb;
+}
+.receipt-footer {
+  margin-top: 24px;
+  font-size: 11px;
+  color: #9CA3AF;
+  text-align: center;
+}
+
+/* Auth background grid */
+.auth-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
 /* Page transitions (CSS fallback) */
 .page-enter        { opacity: 0; transform: translateY(8px); }
 .page-enter-active {

@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { BottomNav } from '@/components/shared/BottomNav';
 import { RealtimeProvider } from '@/components/shared/RealtimeProvider';
+import { DashboardShell } from '@/components/shared/DashboardShell';
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -11,19 +12,21 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <RealtimeProvider>
-      <div className="relative min-h-screen max-w-lg mx-auto">
-        {/* Background decorations */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden max-w-lg mx-auto">
-          <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-violet-600/10 blur-3xl" />
-          <div className="absolute top-1/2 -left-20 w-48 h-48 rounded-full bg-blue-600/8 blur-3xl" />
+      <DashboardShell>
+        <div className="relative min-h-screen max-w-lg mx-auto">
+          {/* Background decorations */}
+          <div className="fixed inset-0 pointer-events-none overflow-hidden max-w-lg mx-auto">
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#6C5CE7]/8 blur-3xl" />
+            <div className="absolute top-1/2 -left-20 w-48 h-48 rounded-full bg-[#A29BFE]/6 blur-3xl" />
+          </div>
+
+          <main className="relative z-10 pb-28">
+            {children}
+          </main>
+
+          <BottomNav />
         </div>
-
-        <main className="relative z-10 pb-28">
-          {children}
-        </main>
-
-        <BottomNav />
-      </div>
+      </DashboardShell>
     </RealtimeProvider>
   );
 }

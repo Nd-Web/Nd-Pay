@@ -1,30 +1,30 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Zap, Delete } from 'lucide-react';
+import { Shield, Delete } from 'lucide-react';
 import { toast } from 'sonner';
 import { createClient } from '@/lib/supabase/client';
-import { Button } from '@/components/ui/button';
+import { FlowPayLogo } from '@/components/shared/FlowPayLogo';
 
 const NUM_DIGITS = 4;
 
 type Step = 'enter' | 'confirm';
 
 export default function SetupPinPage() {
-  const router = useRouter();
+  const router   = useRouter();
   const supabase = createClient();
 
-  const [step, setStep] = useState<Step>('enter');
-  const [pin, setPin] = useState('');
-  const [confirmPin, setConfirmPin] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [shake, setShake] = useState(false);
+  const [step, setStep]         = useState<Step>('enter');
+  const [pin, setPin]           = useState('');
+  const [confirmPin, setConfirm] = useState('');
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState('');
+  const [shake, setShake]       = useState(false);
 
-  const currentPin = step === 'enter' ? pin : confirmPin;
-  const setCurrentPin = step === 'enter' ? setPin : setConfirmPin;
+  const currentPin    = step === 'enter' ? pin : confirmPin;
+  const setCurrentPin = step === 'enter' ? setPin : setConfirm;
 
   const handleDigit = (digit: string) => {
     if (currentPin.length >= NUM_DIGITS) return;
@@ -36,7 +36,6 @@ export default function SetupPinPage() {
       if (step === 'enter') {
         setTimeout(() => setStep('confirm'), 300);
       } else {
-        // Confirm step complete
         setTimeout(() => handleConfirm(next), 300);
       }
     }
@@ -54,7 +53,7 @@ export default function SetupPinPage() {
       setTimeout(() => {
         setShake(false);
         setPin('');
-        setConfirmPin('');
+        setConfirm('');
         setStep('enter');
       }, 600);
       return;
@@ -76,10 +75,10 @@ export default function SetupPinPage() {
         description: 'Your account is now fully secured.',
       });
       router.push('/dashboard');
-    } catch (err) {
+    } catch {
       toast.error('Failed to set PIN. Please try again.');
       setPin('');
-      setConfirmPin('');
+      setConfirm('');
       setStep('enter');
     } finally {
       setLoading(false);
@@ -97,24 +96,19 @@ export default function SetupPinPage() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35 }}
       className="text-center"
     >
-      {/* Logo */}
-      <div className="flex items-center justify-center mb-10">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center shadow-lg shadow-violet-500/40">
-            <Zap className="w-5 h-5 text-white" fill="white" />
-          </div>
-          <span className="text-2xl font-bold text-white tracking-tight">NdPay</span>
-        </div>
+      {/* Wordmark */}
+      <div className="flex justify-center mb-10">
+        <FlowPayLogo size="md" showIcon />
       </div>
 
       <div className="glass rounded-3xl p-8 shadow-2xl">
         {/* Shield icon */}
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-600/20 border border-violet-500/30 flex items-center justify-center">
-            <Shield className="w-8 h-8 text-violet-400" />
+          <div className="w-16 h-16 rounded-2xl bg-[#6C5CE7]/15 border border-[#6C5CE7]/25 flex items-center justify-center">
+            <Shield className="w-8 h-8 text-[#A29BFE]" />
           </div>
         </div>
 
@@ -130,7 +124,7 @@ export default function SetupPinPage() {
             <h1 className="text-2xl font-bold text-white mb-2">
               {step === 'enter' ? 'Set your PIN' : 'Confirm your PIN'}
             </h1>
-            <p className="text-white/50 text-sm">
+            <p className="text-[#6B7280] text-sm">
               {step === 'enter'
                 ? 'Choose a 4-digit PIN to authorize transfers'
                 : 'Enter your PIN one more time to confirm'}
@@ -149,7 +143,7 @@ export default function SetupPinPage() {
               key={`${step}-${i}`}
               className={`w-4 h-4 rounded-full transition-all duration-200 ${
                 i < currentPin.length
-                  ? 'bg-violet-500 scale-110 shadow-lg shadow-violet-500/40'
+                  ? 'bg-[#6C5CE7] scale-110 shadow-lg shadow-[#6C5CE7]/40'
                   : 'bg-white/15 border border-white/20'
               }`}
               animate={i < currentPin.length ? { scale: [1, 1.3, 1] } : { scale: 1 }}
@@ -165,7 +159,7 @@ export default function SetupPinPage() {
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="text-red-400 text-sm mb-4 -mt-4"
+              className="text-[#FF6B6B] text-sm mb-4 -mt-4"
             >
               {error}
             </motion.p>
@@ -184,7 +178,7 @@ export default function SetupPinPage() {
                   type="button"
                   aria-label="Delete last digit"
                   onClick={handleDelete}
-                  className="numpad-btn h-14 flex items-center justify-center rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white transition-all duration-150 active:scale-90"
+                  className="numpad-btn h-14 flex items-center justify-center rounded-2xl bg-white/5 hover:bg-white/10 border border-[var(--fp-border)] text-[#6B7280] hover:text-white transition-all duration-150 active:scale-90"
                   disabled={loading}
                 >
                   <Delete className="w-5 h-5" />
@@ -198,7 +192,7 @@ export default function SetupPinPage() {
                 type="button"
                 aria-label={`Digit ${key}`}
                 onClick={() => handleDigit(key)}
-                className="numpad-btn h-14 text-xl font-semibold text-white rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all duration-150 active:scale-90 active:bg-violet-500/20"
+                className="numpad-btn h-14 text-xl font-semibold text-white rounded-2xl bg-white/5 hover:bg-white/10 border border-[var(--fp-border)] transition-all duration-150 active:scale-90 active:bg-[#6C5CE7]/20 mono-num"
                 disabled={loading || currentPin.length >= NUM_DIGITS}
               >
                 {key}
@@ -207,13 +201,17 @@ export default function SetupPinPage() {
           })}
         </div>
 
-        {/* Step indicator */}
+        {/* Step progress */}
         <div className="flex items-center justify-center gap-2 mt-6">
           {(['enter', 'confirm'] as Step[]).map((s) => (
             <div
               key={s}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                s === step ? 'w-8 bg-violet-500' : step === 'confirm' && s === 'enter' ? 'w-4 bg-emerald-500' : 'w-4 bg-white/15'
+                s === step
+                  ? 'w-8 bg-[#6C5CE7]'
+                  : step === 'confirm' && s === 'enter'
+                    ? 'w-4 bg-[#00D68F]'
+                    : 'w-4 bg-white/15'
               }`}
             />
           ))}
@@ -224,7 +222,7 @@ export default function SetupPinPage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="mt-6 flex items-center justify-center gap-2 text-white/50 text-sm"
+          className="mt-6 flex items-center justify-center gap-2 text-[#6B7280] text-sm"
         >
           <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />

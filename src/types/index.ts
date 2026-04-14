@@ -4,7 +4,7 @@
 
 export type TransactionStatus = 'pending' | 'completed' | 'failed' | 'reversed';
 export type TransactionType = 'transfer' | 'deposit' | 'withdrawal';
-export type NotificationType = 'credit' | 'debit' | 'system' | 'security';
+export type NotificationType = 'credit' | 'debit' | 'system' | 'security' | 'payment_request';
 
 export interface Profile {
   id: string;
@@ -65,6 +65,12 @@ export interface Notification {
     amount?: number;
     counterpart_id?: string;
     counterpart_name?: string;
+    // Payment request fields
+    is_payment_request?: boolean;
+    requester_id?: string;
+    requester_name?: string;
+    requester_account?: string;
+    note?: string;
   } | null;
   created_at: string;
 }

@@ -3,28 +3,64 @@
 import { isToday, isYesterday, format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Bell, ArrowDownLeft, ArrowUpRight, Shield, Info, CheckCheck,
+  Bell, ArrowDownLeft, ArrowUpRight, Shield, Info, CheckCheck, HandCoins,
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useNotifications, useMarkNotificationsRead } from '@/hooks/useNotifications';
 import { useNotificationStore } from '@/lib/stores/notificationStore';
+import { useSendStore } from '@/lib/stores/sendStore';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatTimeAgo } from '@/lib/utils';
+import { formatCurrency, formatTimeAgo } from '@/lib/utils';
 import type { Notification } from '@/types';
 
 // ── Icon by type ──────────────────────────────────────────────────────────────
 function NotifIcon({ type }: { type: Notification['type'] }) {
   const cfg = {
-    credit:   { Icon: ArrowDownLeft, bg: 'bg-emerald-500/15', text: 'text-emerald-400', ring: 'border-emerald-500/20' },
-    debit:    { Icon: ArrowUpRight,  bg: 'bg-red-500/15',     text: 'text-red-400',     ring: 'border-red-500/20'     },
-    security: { Icon: Shield,        bg: 'bg-amber-500/15',   text: 'text-amber-400',   ring: 'border-amber-500/20'   },
-    system:   { Icon: Info,          bg: 'bg-blue-500/15',    text: 'text-blue-400',    ring: 'border-blue-500/20'    },
+    credit:          { Icon: ArrowDownLeft, bg: 'bg-[#00D68F]/15', text: 'text-[#00D68F]', ring: 'border-[#00D68F]/20'  },
+    debit:           { Icon: ArrowUpRight,  bg: 'bg-[#FF6B6B]/12', text: 'text-[#FF6B6B]', ring: 'border-[#FF6B6B]/20'  },
+    security:        { Icon: Shield,        bg: 'bg-amber-500/15',  text: 'text-amber-400', ring: 'border-amber-500/20'  },
+    system:          { Icon: Info,          bg: 'bg-[#A29BFE]/12',  text: 'text-[#A29BFE]', ring: 'border-[#6C5CE7]/20' },
+    payment_request: { Icon: HandCoins,     bg: 'bg-[#6C5CE7]/12',  text: 'text-[#A29BFE]', ring: 'border-[#6C5CE7]/20' },
   } as const;
 
-  const { Icon, bg, text, ring } = cfg[type];
+  const { Icon, bg, text, ring } = cfg[type] ?? cfg.system;
   return (
     <div className={`w-10 h-10 rounded-2xl ${bg} border ${ring} flex items-center justify-center shrink-0`}>
       <Icon className={`w-4.5 h-4.5 ${text}`} />
     </div>
+  );
+}
+
+// ── Accept & Pay button (payment_request notifications) ──────────────────────
+function AcceptPayButton({ notification }: { notification: Notification }) {
+  const router      = useRouter();
+  const { setRecipient, setStep } = useSendStore();
+  const meta = notification.metadata;
+
+  if (!meta?.is_payment_request || !meta.requester_id) return null;
+
+  const handleAccept = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setRecipient({
+      id:             meta.requester_id!,
+      full_name:      meta.requester_name ?? 'Unknown',
+      email:          '',
+      account_number: meta.requester_account ?? '',
+      avatar_url:     null,
+    });
+    setStep('amount');
+    router.push('/send');
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleAccept}
+      className="btn-accept-pay mt-2 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-white transition-all active:scale-95"
+    >
+      <HandCoins className="w-3.5 h-3.5" />
+      Accept &amp; Pay {meta.amount ? formatCurrency(meta.amount) : ''}
+    </button>
   );
 }
 
@@ -44,6 +80,8 @@ function NotifCard({
     if (!notification.is_read) markAsRead.mutate([notification.id]);
   };
 
+  const isRequest = notification.type === 'payment_request';
+
   return (
     <motion.div
       layout
@@ -59,7 +97,9 @@ function NotifCard({
       className={`flex items-start gap-3 p-4 rounded-2xl cursor-pointer transition-colors ${
         notification.is_read
           ? 'bg-white/3 border border-transparent hover:bg-white/6'
-          : 'bg-white/7 border border-violet-500/15 hover:bg-white/10'
+          : isRequest
+            ? 'bg-[#6C5CE7]/8 border border-[#6C5CE7]/20 hover:bg-[#6C5CE7]/12'
+            : 'bg-white/7 border border-[#6C5CE7]/15 hover:bg-white/10'
       }`}
     >
       <NotifIcon type={notification.type} />
@@ -73,12 +113,13 @@ function NotifCard({
           </p>
           <div className="flex items-center gap-1.5 shrink-0">
             {!notification.is_read && (
-              <span className="w-2 h-2 rounded-full bg-violet-500 mt-0.5" />
+              <span className="w-2 h-2 rounded-full bg-[#A29BFE] mt-0.5" />
             )}
           </div>
         </div>
         <p className="text-white/40 text-xs leading-relaxed">{notification.body}</p>
-        <p className="text-white/22 text-[10px] mt-2">{formatTimeAgo(notification.created_at)}</p>
+        <p className="text-white/22 text-[10px] mt-1">{formatTimeAgo(notification.created_at)}</p>
+        <AcceptPayButton notification={notification} />
       </div>
     </motion.div>
   );

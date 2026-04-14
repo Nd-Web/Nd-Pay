@@ -78,7 +78,7 @@ export default function SetupPage() {
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Database Setup</h1>
           <p className="text-white/50 text-sm max-w-md mx-auto">
-            Apply the NdPay schema to your Supabase project. Do this once, then sign up works.
+            Apply the FlowPay schema to your Supabase project. Do this once, then sign up works.
           </p>
         </motion.div>
 
