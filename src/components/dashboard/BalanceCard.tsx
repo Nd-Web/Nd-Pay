@@ -80,9 +80,9 @@ export function BalanceCard() {
       {/* Top edge highlight */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
 
-      <div className="relative z-10 p-6">
+      <div className="relative z-10 p-5">
         {/* Top row */}
-        <div className="flex items-start justify-between mb-8">
+        <div className="flex items-start justify-between mb-4">
           <div>
             <p className="text-white/60 text-xs font-medium uppercase tracking-widest mb-0.5">
               Available Balance
@@ -105,7 +105,7 @@ export function BalanceCard() {
         </div>
 
         {/* Balance amount — DM Mono via mono-num */}
-        <div className="mb-8">
+        <div className="mb-4">
           <motion.div
             key={balanceVisible ? 'show' : 'hide'}
             initial={{ opacity: 0, y: 6 }}
@@ -115,7 +115,7 @@ export function BalanceCard() {
             {balanceVisible ? (
               <div className="flex items-baseline gap-1.5">
                 <span className="text-white/60 text-2xl font-semibold mono-num">$</span>
-                <span className="text-5xl font-bold text-white tracking-tight">
+                <span className="text-4xl font-bold text-white tracking-tight">
                   {wallet != null
                     ? <AnimatedBalance value={wallet.balance} />
                     : <span className="opacity-40 mono-num">—</span>
@@ -123,7 +123,7 @@ export function BalanceCard() {
                 </span>
               </div>
             ) : (
-              <p className="text-5xl font-bold text-white/40 tracking-widest mono-num">
+              <p className="text-4xl font-bold text-white/40 tracking-widest mono-num">
                 ••••••••
               </p>
             )}

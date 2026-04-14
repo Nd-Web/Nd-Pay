@@ -221,7 +221,7 @@ export default function TransactionsPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-5">
+      <div className="flex items-center justify-between px-4 pt-8 pb-5">
         <div>
           <h1 className="text-2xl font-bold text-white">History</h1>
           <p className="text-white/35 text-sm">{allTxns.length} transactions</p>

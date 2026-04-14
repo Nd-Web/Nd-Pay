@@ -80,7 +80,7 @@ export default function SendPage() {
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       {!isSuccess && (
-        <div className="flex items-center gap-3 px-4 pt-14 pb-4">
+        <div className="flex items-center gap-3 px-4 pt-8 pb-4">
           <button
             type="button"
             aria-label="Back to dashboard"

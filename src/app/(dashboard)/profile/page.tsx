@@ -395,7 +395,7 @@ export default function ProfilePage() {
     <>
       <div className="min-h-screen pb-8">
         {/* Header */}
-        <div className="px-4 pt-14 pb-6">
+        <div className="px-4 pt-8 pb-6">
           <h1 className="text-2xl font-bold text-white mb-6">Profile</h1>
 
           {isLoading ? (

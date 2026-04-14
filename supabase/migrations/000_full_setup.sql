@@ -476,6 +476,55 @@ BEGIN
 END;
 $$;
 
+-- =============================================================================
+-- FIX: ensure profiles.id = auth user UUID
+-- When the table has a separate `user_id` column, the backfill may have
+-- inserted rows with auto-generated `id` values. The app code always queries
+-- `profiles WHERE id = auth.uid()`, so we must align id = user_id.
+-- =============================================================================
+DO $$
+DECLARE
+  r               RECORD;
+  has_user_id_col BOOLEAN;
+BEGIN
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'profiles' AND column_name = 'user_id'
+  ) INTO has_user_id_col;
+
+  IF NOT has_user_id_col THEN
+    -- Standard schema: id IS the auth UUID. Nothing to fix.
+    RETURN;
+  END IF;
+
+  -- Find profiles where user_id (auth UUID) != id (auto-generated UUID)
+  FOR r IN
+    SELECT * FROM profiles WHERE user_id IS NOT NULL AND id != user_id
+  LOOP
+    -- Delete old profile (wallet cascades via ON DELETE CASCADE)
+    DELETE FROM profiles WHERE id = r.id;
+
+    -- Re-insert with id = auth UUID
+    INSERT INTO profiles (id, user_id, full_name, email, account_number,
+                          avatar_url, pin_hash, pin_attempts, pin_locked_until,
+                          created_at, updated_at)
+    VALUES (
+      r.user_id, r.user_id,
+      COALESCE(r.full_name, 'FlowPay User'),
+      r.email, r.account_number, r.avatar_url,
+      COALESCE(r.pin_hash, ''), COALESCE(r.pin_attempts, 0),
+      r.pin_locked_until,
+      COALESCE(r.created_at, NOW()), NOW()
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      full_name      = EXCLUDED.full_name,
+      email          = EXCLUDED.email,
+      account_number = COALESCE(profiles.account_number, EXCLUDED.account_number),
+      updated_at     = NOW();
+  END LOOP;
+END;
+$$;
+
 -- Insert missing wallets for any profiles that don't have one
 INSERT INTO wallets (user_id)
 SELECT p.id FROM profiles p

@@ -41,7 +41,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen">
       {/* ── Header ── */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-6">
+      <div className="flex items-center justify-between px-4 pt-8 pb-4">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}

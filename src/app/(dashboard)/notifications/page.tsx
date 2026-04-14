@@ -175,7 +175,7 @@ export default function NotificationsPage() {
   return (
     <div className="min-h-screen pb-6">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-14 pb-6">
+      <div className="flex items-center justify-between px-4 pt-8 pb-6">
         <div>
           <h1 className="text-2xl font-bold text-white">Notifications</h1>
           {unreadCount > 0 ? (
