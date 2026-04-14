@@ -12,22 +12,30 @@ export function useProfile() {
   return useQuery({
     queryKey: ['profile'],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          setLoading(false);
+          throw new Error('Not authenticated');
+        }
 
-      const [profileResult, walletResult] = await Promise.all([
-        supabase.from('profiles').select('*').eq('id', user.id).single(),
-        supabase.from('wallets').select('*').eq('user_id', user.id).single(),
-      ]);
+        const [profileResult, walletResult] = await Promise.all([
+          supabase.from('profiles').select('*').eq('id', user.id).maybeSingle(),
+          supabase.from('wallets').select('*').eq('user_id', user.id).maybeSingle(),
+        ]);
 
-      if (profileResult.error) throw profileResult.error;
-      if (walletResult.error) throw walletResult.error;
+        if (profileResult.error) throw profileResult.error;
+        if (walletResult.error) throw walletResult.error;
 
-      setProfile(profileResult.data);
-      setWallet(walletResult.data);
-      setLoading(false);
+        setProfile(profileResult.data ?? null);
+        setWallet(walletResult.data ?? null);
+        setLoading(false);
 
-      return { profile: profileResult.data, wallet: walletResult.data };
+        return { profile: profileResult.data, wallet: walletResult.data };
+      } catch (err) {
+        setLoading(false);
+        throw err;
+      }
     },
     staleTime: 30_000,
     retry: 1,

@@ -415,9 +415,97 @@ CREATE POLICY "contacts_insert" ON contacts FOR INSERT WITH CHECK (auth.uid() = 
 CREATE POLICY "contacts_delete" ON contacts FOR DELETE USING (auth.uid() = user_id);
 
 -- =============================================================================
+-- BACKFILL: create profile + wallet rows for any existing auth users
+-- =============================================================================
+
+-- Insert missing profiles (uses a loop to guarantee unique account numbers)
+-- Handles both schema variants: tables where auth UID is stored in `id` only,
+-- and tables that also have a separate `user_id NOT NULL` column.
+DO $$
+DECLARE
+  u           RECORD;
+  acct        TEXT;
+  has_user_id BOOLEAN;
+BEGIN
+  -- Detect whether the profiles table has a separate user_id column
+  SELECT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public'
+      AND table_name   = 'profiles'
+      AND column_name  = 'user_id'
+  ) INTO has_user_id;
+
+  FOR u IN
+    SELECT au.id, au.email, au.raw_user_meta_data
+    FROM auth.users au
+    WHERE (
+      -- Skip if a row already references this auth user, in either schema variant
+      CASE WHEN has_user_id
+        THEN NOT EXISTS (SELECT 1 FROM profiles p WHERE p.user_id = au.id)
+        ELSE NOT EXISTS (SELECT 1 FROM profiles p WHERE p.id      = au.id)
+      END
+    )
+  LOOP
+    LOOP
+      acct := lpad(floor(random() * 9000000000 + 1000000000)::BIGINT::TEXT, 10, '0');
+      EXIT WHEN NOT EXISTS (SELECT 1 FROM profiles WHERE account_number = acct);
+    END LOOP;
+
+    IF has_user_id THEN
+      -- Table has a separate user_id column: conflict guard on user_id, not id
+      EXECUTE $dyn$
+        INSERT INTO profiles (user_id, full_name, email, account_number)
+        VALUES ($1, $2, $3, $4)
+        ON CONFLICT (user_id) DO NOTHING
+      $dyn$ USING
+        u.id,
+        COALESCE(u.raw_user_meta_data->>'full_name', split_part(u.email, '@', 1), 'FlowPay User'),
+        u.email,
+        acct;
+    ELSE
+      INSERT INTO profiles (id, full_name, email, account_number)
+      VALUES (
+        u.id,
+        COALESCE(u.raw_user_meta_data->>'full_name', split_part(u.email, '@', 1), 'FlowPay User'),
+        u.email,
+        acct
+      )
+      ON CONFLICT (id) DO NOTHING;
+    END IF;
+  END LOOP;
+END;
+$$;
+
+-- Insert missing wallets for any profiles that don't have one
+INSERT INTO wallets (user_id)
+SELECT p.id FROM profiles p
+WHERE NOT EXISTS (SELECT 1 FROM wallets w WHERE w.user_id = p.id);
+
+-- =============================================================================
 -- REALTIME
 -- =============================================================================
 
-ALTER PUBLICATION supabase_realtime ADD TABLE wallets;
-ALTER PUBLICATION supabase_realtime ADD TABLE notifications;
-ALTER PUBLICATION supabase_realtime ADD TABLE transactions;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables
+    WHERE pubname = 'supabase_realtime' AND tablename = 'wallets'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE wallets;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables
+    WHERE pubname = 'supabase_realtime' AND tablename = 'notifications'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE notifications;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables
+    WHERE pubname = 'supabase_realtime' AND tablename = 'transactions'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE transactions;
+  END IF;
+END;
+$$;
