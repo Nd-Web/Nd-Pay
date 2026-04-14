@@ -1,26 +1,294 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════
+   FlowPay Design System — CSS Custom Properties (dark default)
+   ═══════════════════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand palette */
+  --fp-primary:         #6C5CE7;
+  --fp-primary-light:   #A29BFE;
+  --fp-success:         #00D68F;
+  --fp-error:           #FF6B6B;
+
+  /* Backgrounds */
+  --background:         #0A0A0F;
+  --fp-card:            #12121A;
+  --fp-surface:         #1A1A24;
+  --fp-overlay:         rgba(255, 255, 255, 0.03);
+
+  /* Borders */
+  --fp-border:          rgba(255, 255, 255, 0.06);
+  --fp-border-mid:      rgba(255, 255, 255, 0.10);
+
+  /* Text */
+  --foreground:         #FFFFFF;
+  --fp-text-muted:      #6B7280;
+
+  /* Shadows */
+  --shadow-card:
+    0 1px 3px rgba(0, 0, 0, 0.55),
+    0 4px 8px rgba(0, 0, 0, 0.38),
+    0 16px 32px rgba(0, 0, 0, 0.22);
+  --shadow-card-hover:
+    0 2px 6px rgba(0, 0, 0, 0.65),
+    0 8px 20px rgba(0, 0, 0, 0.48),
+    0 24px 48px rgba(0, 0, 0, 0.32);
+  --shadow-btn:         0 4px 14px rgba(108, 92, 231, 0.40);
+  --shadow-btn-success: 0 4px 14px rgba(0, 214, 143, 0.35);
+  --shadow-btn-error:   0 4px 14px rgba(255, 107, 107, 0.35);
+
+  /* Fonts */
+  --font-inter:    'Inter', sans-serif;
+  --font-dm-mono:  'DM Mono', monospace;
+
+  /* Legacy compat variables (used by ThemeProvider inline styles) */
+  --bg-primary:    var(--background);
+  --bg-card:       var(--fp-card);
+  --bg-surface:    var(--fp-overlay);
+  --text-primary:  var(--foreground);
+  --text-secondary: var(--fp-text-muted);
+  --border-color:  var(--fp-border);
 }
 
+/* ── Light mode overrides ───────────────────────────────────── */
+html[data-theme='light'] {
+  --background:         #FFFFFF;
+  --fp-card:            #F5F5FA;
+  --fp-surface:         #ECECF4;
+  --fp-overlay:         rgba(0, 0, 0, 0.03);
+  --fp-border:          rgba(0, 0, 0, 0.07);
+  --fp-border-mid:      rgba(0, 0, 0, 0.12);
+  --foreground:         #0A0A0F;
+  --fp-text-muted:      #6B7280;
+  --shadow-card:
+    0 1px 3px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    0 16px 32px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover:
+    0 2px 6px rgba(0, 0, 0, 0.11),
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    0 24px 48px rgba(0, 0, 0, 0.06);
+  /* Legacy compat */
+  --bg-primary:    #FFFFFF;
+  --bg-card:       #F5F5FA;
+  --bg-surface:    rgba(0, 0, 0, 0.03);
+  --text-primary:  #0A0A0F;
+  --text-secondary: #6B7280;
+  --border-color:  rgba(0, 0, 0, 0.07);
+}
+
+html[data-theme='light'] body {
+  background: #FFFFFF;
+}
+
+/* ── Tailwind v4 @theme mapping ─────────────────────────────── */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-dm-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ═══════════════════════════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════════════════════════ */
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+/*
+  Smooth theme transitions — only colour/border/opacity.
+  Explicitly excluded: transform, width, height (avoids fighting Framer Motion).
+*/
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, opacity, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Scrollbar
+   ═══════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.20); }
+
+html[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Utility classes
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Glass morphism */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--fp-border);
+}
+html[data-theme='light'] .glass {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: var(--fp-border);
+}
+
+/* Card surface with layered shadows */
+.fp-card {
+  background: var(--fp-card);
+  border: 1px solid var(--fp-border);
+  box-shadow: var(--shadow-card);
+}
+
+/* Card hover lift — override the global transition so transform is animated */
+.fp-card-hover {
+  transition: transform 250ms ease, box-shadow 250ms ease !important;
+}
+.fp-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* FlowPay gradient text: "Flow" in brand gradient */
+.fp-gradient-text {
+  background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Legacy gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #A29BFE 0%, #6C5CE7 50%, #00D68F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* DM Mono utility for amounts / numbers */
+.mono-num {
+  font-family: var(--font-dm-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Amount input (send flow) */
+.amount-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  width: 100%;
+  caret-color: var(--fp-primary);
+  font-family: var(--font-dm-mono), monospace;
+}
+
+/* PIN input — hide number arrows */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Keyframe animations
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px)  rotate(0deg); }
+  33%       { transform: translateY(-20px) rotate(1deg); }
+  66%       { transform: translateY(10px)  rotate(-1deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+
+@keyframes pin-fill {
+  0%   { transform: scale(0); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float      { animation: float 8s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-slide-up   { animation: slide-up 0.25s ease-out both; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Component helpers
+   ═══════════════════════════════════════════════════════════════ */
+
+.pin-dot-filled { animation: pin-fill 0.15s ease-out; }
+
+/* Shimmer skeleton */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Numpad press */
+.numpad-btn:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Transaction card hover */
+.transaction-card:hover { background: rgba(255, 255, 255, 0.07); }
+
+/* Bottom nav active indicator dot */
+.nav-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--fp-primary);
+}
+
+/* Page transitions (CSS fallback) */
+.page-enter        { opacity: 0; transform: translateY(8px); }
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
