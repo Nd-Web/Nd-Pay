@@ -22,7 +22,7 @@ const quickActions = [
   { href: '/send',          icon: Send,           label: 'Send',    color: 'from-[#6C5CE7] to-[#A29BFE]',  shadow: 'shadow-[#6C5CE7]/35', action: null  },
   { href: '/transactions',  icon: ArrowLeftRight, label: 'History', color: 'from-[#3B82F6] to-[#06B6D4]',  shadow: 'shadow-blue-500/30',  action: null  },
   { href: null,             icon: Plus,           label: 'Add $1K', color: 'from-[#00D68F] to-[#00B07A]',  shadow: 'shadow-[#00D68F]/30', action: 'fund'},
-  { href: '/notifications', icon: Bell,           label: 'Alerts',  color: 'from-[#F59E0B] to-[#EF4444]',  shadow: 'shadow-amber-500/30', action: null  },
+  { href: '/notifications', icon: Bell,           label: 'Alerts',  color: 'from-[#F59E0B] to-[#FF6B6B]',  shadow: 'shadow-[#F59E0B]/30', action: null  },
 ];
 
 function getGreeting() {
@@ -164,7 +164,7 @@ export default function DashboardPage() {
           <h2 className="text-white font-semibold text-base">Recent Activity</h2>
           <Link
             href="/transactions"
-            className="text-violet-400 text-xs font-medium hover:text-violet-300 transition-colors flex items-center gap-1"
+            className="text-[#A29BFE] text-xs font-medium hover:text-[#6C5CE7] transition-colors flex items-center gap-1"
           >
             See all
             <ChevronRight className="w-3 h-3" />

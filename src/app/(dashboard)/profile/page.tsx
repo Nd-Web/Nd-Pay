@@ -162,7 +162,7 @@ function EditNameDrawer({ onClose }: { onClose: () => void }) {
         maxLength={60}
         placeholder="Your full name"
         className="w-full h-12 px-4 rounded-2xl bg-white/6 border border-white/12 text-white placeholder:text-white/30
-                   text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/40 transition-all"
+                   text-sm focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/40 focus:border-[#6C5CE7]/40 transition-all"
         autoFocus
       />
       <Button className="w-full mt-4" onClick={handleSave} loading={isPending}>
@@ -326,8 +326,7 @@ function useAvatarUpload() {
 
         await updateProfile({ avatar_url: avatarUrl });
         toast.success('Avatar updated');
-      } catch (err) {
-        console.error(err);
+      } catch {
         toast.error('Could not upload avatar');
       } finally {
         setUploading(false);

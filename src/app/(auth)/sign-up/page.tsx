@@ -25,12 +25,12 @@ const getStrength = (pw: string) => {
   return score;
 };
 const strengthLabel     = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-const strengthBarClass  = ['', 'bg-[#FF6B6B]', 'bg-amber-500', 'bg-yellow-400', 'bg-[#00D68F]'];
-const strengthTextClass = ['', 'text-[#FF6B6B]', 'text-amber-400', 'text-yellow-400', 'text-[#00D68F]'];
+const strengthBarClass  = ['', 'bg-[#FF6B6B]', 'bg-[#F59E0B]', 'bg-[#FFD93D]', 'bg-[#00D68F]'];
+const strengthTextClass = ['', 'text-[#FF6B6B]', 'text-[#F59E0B]', 'text-[#FFD93D]', 'text-[#00D68F]'];
 
 // ── Confetti ──────────────────────────────────────────────────────────────────
 function ConfettiParticle({ i }: { i: number }) {
-  const colors = ['#6C5CE7', '#00D68F', '#A29BFE', '#f59e0b', '#ec4899', '#06b6d4'];
+  const colors = ['#6C5CE7', '#00D68F', '#A29BFE', '#F59E0B', '#FF6B6B', '#FFD93D'];
   const color  = colors[i % colors.length];
   const angle  = (i / 20) * 360;
   const dist   = 80 + (i % 3) * 40;

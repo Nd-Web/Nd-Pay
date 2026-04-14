@@ -18,7 +18,7 @@ function NotifIcon({ type }: { type: Notification['type'] }) {
   const cfg = {
     credit:          { Icon: ArrowDownLeft, bg: 'bg-[#00D68F]/15', text: 'text-[#00D68F]', ring: 'border-[#00D68F]/20'  },
     debit:           { Icon: ArrowUpRight,  bg: 'bg-[#FF6B6B]/12', text: 'text-[#FF6B6B]', ring: 'border-[#FF6B6B]/20'  },
-    security:        { Icon: Shield,        bg: 'bg-amber-500/15',  text: 'text-amber-400', ring: 'border-amber-500/20'  },
+    security:        { Icon: Shield,        bg: 'bg-[#F59E0B]/15',  text: 'text-[#F59E0B]', ring: 'border-[#F59E0B]/20'  },
     system:          { Icon: Info,          bg: 'bg-[#A29BFE]/12',  text: 'text-[#A29BFE]', ring: 'border-[#6C5CE7]/20' },
     payment_request: { Icon: HandCoins,     bg: 'bg-[#6C5CE7]/12',  text: 'text-[#A29BFE]', ring: 'border-[#6C5CE7]/20' },
   } as const;
