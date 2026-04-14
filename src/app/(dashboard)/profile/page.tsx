@@ -93,7 +93,7 @@ function PinDots({ value, max = 4 }: { value: string; max?: number }) {
           animate={{ scale: i === value.length - 1 ? [1, 1.3, 1] : 1 }}
           transition={{ duration: 0.15 }}
           className={`w-3 h-3 rounded-full transition-colors ${
-            i < value.length ? 'bg-violet-400' : 'bg-white/15'
+            i < value.length ? 'bg-[#A29BFE]' : 'bg-white/15'
           }`}
         />
       ))}
@@ -277,7 +277,7 @@ function DrawerShell({
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 w-full max-w-md bg-[#120d24] border-t border-white/10 rounded-t-3xl p-6 pb-10"
+        className="relative z-10 w-full max-w-md bg-[var(--fp-card)] border-t border-[var(--fp-border-mid)] rounded-t-3xl p-6 pb-10"
       >
         {/* Handle */}
         <div className="w-10 h-1 rounded-full bg-white/20 mx-auto mb-5" />
@@ -404,7 +404,7 @@ export default function ProfilePage() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="rounded-3xl bg-gradient-to-br from-violet-600/20 via-purple-700/15 to-transparent border border-violet-500/20 p-5"
+              className="rounded-3xl bg-gradient-to-br from-[#6C5CE7]/20 via-[#6C5CE7]/10 to-transparent border border-[#6C5CE7]/20 p-5"
             >
               {/* Avatar + name */}
               <div className="flex items-center gap-4">
@@ -420,8 +420,8 @@ export default function ProfilePage() {
                     aria-label="Change avatar"
                     onClick={() => fileRef.current?.click()}
                     disabled={uploading}
-                    className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-violet-500 border-2 border-[#0f0a1e]
-                               flex items-center justify-center hover:bg-violet-400 transition-colors disabled:opacity-50"
+                    className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#6C5CE7] border-2 border-[#0A0A0F]
+                               flex items-center justify-center hover:bg-[#7D6EEF] transition-colors disabled:opacity-50"
                   >
                     {uploading
                       ? <div className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -465,7 +465,7 @@ export default function ProfilePage() {
                       {profile?.account_number}
                     </span>
                     {copied
-                      ? <Check className="w-3 h-3 text-emerald-400" />
+                      ? <Check className="w-3 h-3 text-[#00D68F]" />
                       : <Copy className="w-3 h-3 text-white/25 group-hover:text-white/50 transition-colors" />
                     }
                   </button>
@@ -480,9 +480,9 @@ export default function ProfilePage() {
                     {wallet ? formatCurrency(wallet.balance) : '—'}
                   </p>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/12 border border-emerald-500/20">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-emerald-400 text-xs font-medium">Active</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#00D68F]/12 border border-[#00D68F]/20">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#00D68F] animate-pulse" />
+                  <span className="text-[#00D68F] text-xs font-medium">Active</span>
                 </div>
               </div>
             </motion.div>
@@ -537,7 +537,7 @@ export default function ProfilePage() {
                   <div
                     className={`w-11 h-6 rounded-full border transition-colors relative ${
                       theme === 'light'
-                        ? 'bg-violet-500 border-violet-500'
+                        ? 'bg-[#6C5CE7] border-[#6C5CE7]'
                         : 'bg-white/10 border-white/15'
                     }`}
                   >
@@ -573,7 +573,7 @@ export default function ProfilePage() {
                   sub={sub}
                   type="div"
                   trailing={
-                    <div className="w-11 h-6 rounded-full bg-violet-500 border border-violet-500 relative">
+                    <div className="w-11 h-6 rounded-full bg-[#6C5CE7] border border-[#6C5CE7] relative">
                       <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-white shadow-sm" />
                     </div>
                   }

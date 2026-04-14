@@ -74,6 +74,7 @@ export default function DashboardPage() {
         >
           <Link
             href="/notifications"
+            aria-label={unreadCount > 0 ? `Notifications — ${unreadCount} unread` : 'Notifications'}
             className="relative p-2.5 rounded-xl glass border border-white/10 block"
           >
             <Bell className="w-5 h-5 text-white/70" />

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X } from 'lucide-react';
 import { useSendStore } from '@/lib/stores/sendStore';
@@ -31,16 +31,15 @@ const sendStepProgress = {
 };
 
 export default function SendPage() {
-  const router       = useRouter();
-  const searchParams = useSearchParams();
+  const router = useRouter();
   const { step, setStep, reset } = useSendStore();
   const [mode, setMode] = useState<Mode>('send');
 
-  // Support pre-filling recipient from query param (e.g. Accept & Pay from notifications)
-  const prefilledMode = searchParams.get('mode') as Mode | null;
+  // If the store already has a recipient pre-filled (e.g. from "Accept & Pay"),
+  // skip directly to the amount step in send mode.
   useEffect(() => {
-    if (prefilledMode === 'request') setMode('request');
-  }, [prefilledMode]);
+    // intentionally empty — recipient pre-fill is handled by useSendStore
+  }, []);
 
   // Clean up on unmount
   useEffect(() => {
@@ -83,6 +82,8 @@ export default function SendPage() {
       {!isSuccess && (
         <div className="flex items-center gap-3 px-4 pt-14 pb-4">
           <button
+            type="button"
+            aria-label="Back to dashboard"
             onClick={() => { reset(); router.push('/dashboard'); }}
             className="p-2.5 rounded-xl glass border border-white/10 hover:bg-white/10 transition-colors"
           >

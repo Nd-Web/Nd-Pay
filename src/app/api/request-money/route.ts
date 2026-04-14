@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { formatCurrency } from '@/lib/utils';
 
+type ProfileRow = { id: string; full_name: string; account_number: string };
+
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -37,26 +39,28 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Fetch requester profile ───────────────────────────────────────────────
-    const { data: requesterProfile, error: requesterErr } = await supabase
+    const { data: rawRequester, error: requesterErr } = await supabase
       .from('profiles')
       .select('id, full_name, account_number')
       .eq('id', user.id)
-      .single();
+      .single() as unknown as { data: ProfileRow | null; error: unknown };
 
-    if (requesterErr || !requesterProfile) {
+    if (requesterErr || !rawRequester) {
       return NextResponse.json({ error: 'Requester profile not found' }, { status: 404 });
     }
+    const requesterProfile = rawRequester;
 
     // ── Verify target exists ──────────────────────────────────────────────────
-    const { data: targetProfile, error: targetErr } = await supabase
+    const { data: rawTarget, error: targetErr } = await supabase
       .from('profiles')
       .select('id, full_name')
       .eq('id', target_id as string)
-      .single();
+      .single() as unknown as { data: { id: string; full_name: string } | null; error: unknown };
 
-    if (targetErr || !targetProfile) {
+    if (targetErr || !rawTarget) {
       return NextResponse.json({ error: 'Target user not found' }, { status: 404 });
     }
+    const targetProfile = rawTarget;
 
     // ── Insert notification for target user ───────────────────────────────────
     const { error: notifErr } = await supabase
@@ -77,7 +81,7 @@ export async function POST(request: NextRequest) {
           amount:             amount,
           note:               (note as string | undefined) ?? null,
         },
-      });
+      } as never);
 
     if (notifErr) {
       console.error('[Request Money] Insert notification failed:', notifErr);
