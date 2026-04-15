@@ -90,9 +90,9 @@ export function SavedContacts() {
         <button
           type="button"
           onClick={() => router.push('/send')}
-          className="w-14 h-14 rounded-full bg-white/5 border-2 border-dashed border-white/15 flex items-center justify-center hover:bg-white/10 hover:border-violet-500/40 transition-all group"
+          className="w-14 h-14 rounded-full bg-white/5 border-2 border-dashed border-white/15 flex items-center justify-center hover:bg-white/10 hover:border-[#6C5CE7]/40 transition-all group"
         >
-          <Plus className="w-5 h-5 text-white/30 group-hover:text-violet-400 transition-colors" />
+          <Plus className="w-5 h-5 text-white/30 group-hover:text-[#A29BFE] transition-colors" />
         </button>
         <span className="text-white/30 text-[10px] text-center w-14">New</span>
       </motion.div>
@@ -119,7 +119,7 @@ export function SavedContacts() {
               />
             </div>
             {/* Send pulse indicator */}
-            <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-violet-500 border-2 border-[#0f0a1e] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#6C5CE7] border-2 border-[#0f0a1e] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <svg className="w-2 h-2 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>

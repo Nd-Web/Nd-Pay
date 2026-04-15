@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 
 // ── Confetti pieces ───────────────────────────────────────────────────────────
 function Confetti() {
-  const colors = ['#6C5CE7', '#00D68F', '#A29BFE', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16'];
+  const colors = ['#6C5CE7', '#00D68F', '#A29BFE', '#F59E0B', '#FF6B6B', '#FFD93D', '#A29BFE'];
   return (
     <>
       {Array.from({ length: 24 }).map((_, i) => {

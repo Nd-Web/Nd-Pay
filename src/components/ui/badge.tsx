@@ -15,7 +15,7 @@ const badgeVariants = cva(
           'bg-[#00D68F]/15 text-[#00D68F] border border-[#00D68F]/25',
         // Warning
         warning:
-          'bg-amber-500/15 text-amber-300 border border-amber-500/25',
+          'bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/25',
         // Destructive — FlowPay red
         destructive:
           'bg-[#FF6B6B]/15 text-[#FF6B6B] border border-[#FF6B6B]/25',

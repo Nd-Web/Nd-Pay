@@ -30,13 +30,13 @@ export function TransferConfirm() {
 
         <div className="flex flex-col items-center gap-1">
           <div className="flex items-center gap-2">
-            <div className="w-12 h-px bg-gradient-to-r from-violet-500/50 to-violet-500" />
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-500/30">
+            <div className="w-12 h-px bg-gradient-to-r from-[#6C5CE7]/50 to-[#6C5CE7]" />
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#6C5CE7] to-[#A29BFE] flex items-center justify-center shadow-lg shadow-[#6C5CE7]/30">
               <ArrowRight className="w-4 h-4 text-white" />
             </div>
-            <div className="w-12 h-px bg-gradient-to-l from-violet-500/50 to-violet-500" />
+            <div className="w-12 h-px bg-gradient-to-l from-[#6C5CE7]/50 to-[#6C5CE7]" />
           </div>
-          <span className="text-violet-400 font-bold text-lg">{formatCurrency(parseFloat(amount))}</span>
+          <span className="text-[#A29BFE] font-bold text-lg">{formatCurrency(parseFloat(amount))}</span>
         </div>
 
         <div className="flex flex-col items-center gap-2">
@@ -68,7 +68,7 @@ export function TransferConfirm() {
 
           <div className="flex items-center justify-between px-4 py-3.5">
             <span className="text-white/50 text-sm">Transaction fee</span>
-            <span className="text-emerald-400 text-sm font-medium">Free</span>
+            <span className="text-[#00D68F] text-sm font-medium">Free</span>
           </div>
 
           {narration && (
@@ -87,7 +87,7 @@ export function TransferConfirm() {
 
       {/* Security note */}
       <div className="flex items-start gap-2 mb-6 px-1">
-        <Shield className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
+        <Shield className="w-4 h-4 text-[#A29BFE] shrink-0 mt-0.5" />
         <p className="text-white/40 text-xs leading-relaxed">
           This transfer is secured and processed instantly. You&apos;ll be asked to enter your 4-digit PIN to authorize.
         </p>

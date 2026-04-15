@@ -174,7 +174,7 @@ function RequestSearch({ onSelect }: { onSelect: (u: PublicProfile) => void }) {
             {contacts && contacts.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 px-1">
-                  <Star className="w-3.5 h-3.5 text-amber-400" />
+                  <Star className="w-3.5 h-3.5 text-[#F59E0B]" />
                   <p className="text-white/40 text-xs font-medium uppercase tracking-widest">Saved</p>
                 </div>
                 {contacts.map((c, i) => (

@@ -179,7 +179,7 @@ export default function NotificationsPage() {
         <div>
           <h1 className="text-2xl font-bold text-white">Notifications</h1>
           {unreadCount > 0 ? (
-            <p className="text-violet-400 text-sm">{unreadCount} unread</p>
+            <p className="text-[#A29BFE] text-sm">{unreadCount} unread</p>
           ) : (
             <p className="text-white/30 text-sm">All caught up</p>
           )}

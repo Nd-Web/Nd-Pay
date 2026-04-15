@@ -598,7 +598,7 @@ export default function ProfilePage() {
                   <p className="text-white text-sm font-medium">FlowPay</p>
                   <p className="text-white/30 text-xs">Version 1.0.0 · Demo Mode</p>
                 </div>
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 text-[10px] font-semibold">
+                <span className="px-2 py-0.5 rounded-full bg-[#F59E0B]/15 text-[#F59E0B] text-[10px] font-semibold">
                   Simulated
                 </span>
               </div>

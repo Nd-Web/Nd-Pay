@@ -20,7 +20,7 @@ export function TransactionItem({ transaction, index = 0 }: TransactionItemProps
   const counterpartName = counterpart?.full_name ?? 'Unknown';
 
   const sign = isSent ? '-' : '+';
-  const amountColor = isSent ? 'text-white' : 'text-emerald-400';
+  const amountColor = isSent ? 'text-white' : 'text-[#00D68F]';
 
   return (
     <motion.div
@@ -40,7 +40,7 @@ export function TransactionItem({ transaction, index = 0 }: TransactionItemProps
           className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0f0a1e] ${
             isSent
               ? 'bg-white/20'
-              : 'bg-emerald-500'
+              : 'bg-[#00D68F]'
           }`}
         >
           {isSent ? (

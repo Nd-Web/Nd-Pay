@@ -84,7 +84,7 @@ export function AmountEntry() {
         <button
           type="button"
           onClick={() => setStep('search')}
-          className="text-violet-400 text-xs font-medium hover:text-violet-300 transition-colors"
+          className="text-[#A29BFE] text-xs font-medium hover:text-[#6C5CE7] transition-colors"
         >
           Change
         </button>
@@ -133,7 +133,7 @@ export function AmountEntry() {
               onClick={() => { setAmount(qa); setError(''); }}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
                 amount === qa
-                  ? 'bg-violet-500/30 text-violet-300 border-violet-500/50'
+                  ? 'bg-[#6C5CE7]/30 text-[#A29BFE] border-[#6C5CE7]/50'
                   : 'bg-white/5 text-white/40 border-white/10 hover:bg-white/10 hover:text-white/60'
               }`}
             >
@@ -151,7 +151,7 @@ export function AmountEntry() {
           value={narration}
           onChange={(e) => setNarration(e.target.value)}
           maxLength={100}
-          className="w-full h-11 px-4 rounded-2xl bg-white/5 border border-white/10 text-white/80 placeholder:text-white/25 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/40 transition-all"
+          className="w-full h-11 px-4 rounded-2xl bg-white/5 border border-white/10 text-white/80 placeholder:text-white/25 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/40 focus:border-[#6C5CE7]/40 transition-all"
         />
       </div>
 
@@ -171,7 +171,7 @@ export function AmountEntry() {
                     ? 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10 flex items-center justify-center'
                     : key === '.'
                     ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
-                    : 'bg-white/8 border border-white/8 text-white hover:bg-white/12 active:bg-violet-500/20'
+                    : 'bg-white/8 border border-white/8 text-white hover:bg-white/12 active:bg-[#6C5CE7]/20'
                 }`}
               >
                 {isDel ? (

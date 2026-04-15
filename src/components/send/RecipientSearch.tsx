@@ -45,7 +45,7 @@ function RecipientRow({
         <div className="flex items-center gap-1.5">
           <p className="text-white font-medium text-sm truncate">{user.full_name}</p>
           {badge && (
-            <span className="px-1.5 py-0.5 rounded-md bg-violet-500/20 text-violet-400 text-[9px] font-semibold uppercase tracking-wide shrink-0">
+            <span className="px-1.5 py-0.5 rounded-md bg-[#6C5CE7]/20 text-[#A29BFE] text-[9px] font-semibold uppercase tracking-wide shrink-0">
               {badge}
             </span>
           )}
@@ -153,7 +153,7 @@ export function RecipientSearch() {
           placeholder="Name, email, or account number..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full h-12 pl-10 pr-10 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-500/40 transition-all"
+          className="w-full h-12 pl-10 pr-10 rounded-2xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/40 focus:border-[#6C5CE7]/40 transition-all"
           autoFocus
         />
         {query && (
@@ -197,7 +197,7 @@ export function RecipientSearch() {
             {contacts && contacts.length > 0 && (
               <div className="space-y-2">
                 <div className="flex items-center gap-2 px-1">
-                  <Star className="w-3.5 h-3.5 text-amber-400" />
+                  <Star className="w-3.5 h-3.5 text-[#F59E0B]" />
                   <p className="text-white/40 text-xs font-medium uppercase tracking-widest">Saved</p>
                 </div>
                 {contacts.map((c, i) => (
